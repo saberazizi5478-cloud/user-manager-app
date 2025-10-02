@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم کامل مدیریت کاربران</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .user-panel, .admin-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        /* استایل‌های پنل ادمین */
+        .admin-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-right: 4px solid #667eea;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحه اصلی -->
+    <div id="mainPage" class="container">
+        <div class="logo">
+            <h1>🚀 سیستم مدیریت کاربران</h1>
+            <p>به سامانه جامع مدیریت کاربران خوش آمدید</p>
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="showRegister()">📝 ثبت نام</button>
+            <button class="btn btn-secondary" onclick="showLogin()">🔐 ورود کاربر</button>
+            <button class="btn btn-secondary" onclick="showAdminLogin()">👑 ورود ادمین</button>
+        </div>
+    </div>
+
+    <!-- صفحه ثبت نام -->
+    <div id="registerPage" class="container hidden">
+        <div class="logo">
+            <h1>📝 ثبت نام کاربر جدید</h1>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="regFullName">نام کامل:</label>
+                <input type="text" id="regFullName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="regEmail">ایمیل:</label>
+                <input type="email" id="regEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="regPhone">شماره موبایل:</label>
+                <input type="tel" id="regPhone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="regPassword">رمز عبور:</label>
+                <input type="password" id="regPassword" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">ثبت نام</button>
+        </form>
+        
+        <button class="btn btn-secondary" onclick="showMain()" style="width: 100%; margin-top: 15px;">بازگشت</button>
+        
+        <div id="registerMessage" class="message"></div>
+    </div>
+
+    <!-- صفحه ورود کاربر -->
+    <div id="loginPage" class="container hidden">
+        <div class="logo">
+            <h1>🔐 ورود کاربر</h1>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">ایمیل:</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">رمز عبور:</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">ورود</button>
+        </form>
+        
+        <button class="btn btn-secondary" onclick="showMain()" style="width: 100%; margin-top: 15px;">بازگشت</button>
+        
+        <div id="loginMessage" class="message"></div>
+    </div>
+
+    <!-- صفحه ورود ادمین -->
+    <div id="adminLoginPage" class="container hidden">
+        <div class="logo">
+            <h1>👑 ورود ادمین</h1>
+        </div>
+        
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="adminUsername">نام کاربری ادمین:</label>
+                <input type="text" id="adminUsername" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="adminPassword">رمز عبور ادمین:</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">ورود به پنل ادمین</button>
+        </form>
+        
+        <button class="btn btn-secondary" onclick="showMain()" style="width: 100%; margin-top: 15px;">بازگشت</button>
+        
+        <div id="adminLoginMessage" class="message"></div>
+    </div>
+
+    <!-- پنل کاربر -->
+    <div id="userPanel" class="container hidden">
+        <div class="logo">
+            <h1>👤 پنل کاربری</h1>
+            <p id="welcomeMessage">خوش آمدید!</p>
+        </div>
+        
+        <div class="user-panel">
+            <h3>📊 اطلاعات حساب شما</h3>
+            <div id="userInfo"></div>
+        </div>
+        
+        <button class="logout-btn" onclick="logout()">🚪 خروج</button>
+    </div>
+
+    <!-- پنل ادمین -->
+    <div id="adminPanel" class="admin-container hidden">
+        <!-- هدر پنل ادمین -->
+        <div class="header">
+            <h1>👑 پنل مدیریت ادمین</h1>
+            <button class="btn btn-danger" onclick="logout()">🚪 خروج از پنل ادمین</button>
+        </div>
+
+        <!-- آمار -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-label">👥 کل کاربران</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayUsers">0</div>
+                <div class="stat-label">📅 ثبت‌نام‌های امروز</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeUsers">0</div>
+                <div class="stat-label">✅ کاربران فعال</div>
+            </div>
+        </div>
+
+        <!-- نوار اقدامات -->
+        <div class="admin-actions">
+            <button class="btn btn-success" onclick="showAddUserModal()">
+                ➕ افزودن کاربر جدید
+            </button>
+            <button class="btn btn-primary" onclick="exportToExcel()">
+                📥 خروجی Excel
+            </button>
+            <button class="btn btn-secondary" onclick="downloadBackup()">
+                💾 دانلود پشتیبان
+            </button>
+            <button class="btn btn-warning" onclick="showImportModal()">
+                📤 وارد کردن داده
+            </button>
+        </div>
+
+        <!-- جستجو -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 جستجو در کاربران (بر اساس نام، ایمیل، شماره کاربری یا موبایل)...">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="searchUsers()">جستجو</button>
+                <button class="btn btn-secondary" onclick="clearSearch()">پاک کردن جستجو</button>
+            </div>
+        </div>
+
+        <!-- پیام -->
+        <div id="adminMessage" class="message"></div>
+
+        <!-- لیست کاربران -->
+        <div id="usersTableContainer">
+            <!-- جدول کاربران اینجا نمایش داده می‌شود -->
+        </div>
+    </div>
+
+    <!-- مودال افزودن کاربر -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">➕ افزودن کاربر جدید</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="addFullName">نام کامل:</label>
+                    <input type="text" id="addFullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="addEmail">ایمیل:</label>
+                    <input type="email" id="addEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="addPhone">شماره موبایل:</label>
+                    <input type="tel" id="addPhone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="addPassword">رمز عبور:</label>
+                    <input type="password" id="addPassword" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addUserModal')">انصراف</button>
+                    <button type="submit" class="btn btn-success">ثبت کاربر</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- مودال ویرایش کاربر -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">✏️ ویرایش کاربر</h2>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                
+                <div class="form-group">
+                    <label for="editFullName">نام کامل:</label>
+                    <input type="text" id="editFullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEmail">ایمیل:</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPhone">شماره موبایل:</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPassword">رمز عبور (خالی بگذارید اگر نمی‌خواهید تغییر کند):</label>
+                    <input type="password" id="editPassword">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editUserModal')">انصراف</button>
+                    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- مودال وارد کردن داده -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">📤 وارد کردن داده از فایل</h2>
+            <div class="form-group">
+                <label>انتخاب فایل (JSON):</label>
+                <input type="file" id="importFile" accept=".json">
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>📋 فرمت مورد نیاز:</h4>
+                <pre style="font-size: 12px; background: white; padding: 10px; border-radius: 5px;">
+[
+  {
+    "fullName": "نام کاربر",
+    "email": "email@example.com",
+    "phone": "09123456789",
+    "password": "رمز عبور"
+  }
+]
+                </pre>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('importModal')">انصراف</button>
+                <button type="button" class="btn btn-primary" onclick="importUsers()">وارد کردن داده</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // اطلاعات ادمین (می‌تونید تغییر بدید)
+        const ADMIN_CREDENTIALS = {
+            username: "admin",
+            password: "admin123"
+        };
+
+        let currentEditingUserId = null;
+        let allUsers = [];
+
+        // نمایش صفحات
+        function showMain() {
+            hideAllPages();
+            document.getElementById('mainPage').classList.remove('hidden');
+        }
+
+        function showRegister() {
+            hideAllPages();
+            document.getElementById('registerPage').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            hideAllPages();
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function showAdminLogin() {
+            hideAllPages();
+            document.getElementById('adminLoginPage').classList.remove('hidden');
+        }
+
+        function showUserPanel() {
+            hideAllPages();
+            document.getElementById('userPanel').classList.remove('hidden');
+        }
+
+        function showAdminPanel() {
+            hideAllPages();
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadAdminPanel();
+        }
+
+        function hideAllPages() {
+            const pages = document.querySelectorAll('.container, .admin-container');
+            pages.forEach(page => page.classList.add('hidden'));
+        }
+
+        // مدیریت کاربران
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('users')) || [];
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function generateUserNumber() {
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `USER${timestamp}${random}`;
+        }
+
+        // ثبت نام کاربر جدید
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userData = {
+                id: Date.now(),
+                fullName: document.getElementById('regFullName').value,
+                email: document.getElementById('regEmail').value,
+                phone: document.getElementById('regPhone').value,
+                password: document.getElementById('regPassword').value,
+                userNumber: generateUserNumber(),
+                registerDate: new Date().toLocaleString('fa-IR')
+            };
+
+            const users = getUsers();
+            
+            // بررسی تکراری نبودن ایمیل
+            const existingUser = users.find(user => user.email === userData.email);
+            if (existingUser) {
+                showMessage('registerMessage', 'این ایمیل قبلاً ثبت شده است', 'error');
+                return;
+            }
+
+            users.push(userData);
+            saveUsers(users);
+            
+            showMessage('registerMessage', 
+                `✅ ثبت نام موفق! شماره کاربری شما: ${userData.userNumber}`, 
+                'success'
+            );
+            
+            document.getElementById('registerForm').reset();
+        });
+
+        // ورود کاربر
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                document.getElementById('welcomeMessage').textContent = `خوش آمدید ${user.fullName}`;
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>نام:</strong> ${user.fullName}</p>
+                    <p><strong>ایمیل:</strong> ${user.email}</p>
+                    <p><strong>موبایل:</strong> ${user.phone}</p>
+                    <p><strong>شماره کاربری:</strong> ${user.userNumber}</p>
+                    <p><strong>تاریخ ثبت نام:</strong> ${user.registerDate}</p>
+                `;
+                showUserPanel();
+            } else {
+                showMessage('loginMessage', '❌ ایمیل یا رمز عبور اشتباه است', 'error');
+            }
+        });
+
+        // ورود ادمین
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                localStorage.setItem('isAdmin', 'true');
+                showAdminPanel();
+            } else {
+                showMessage('adminLoginMessage', '❌ اطلاعات ادمین اشتباه است', 'error');
+            }
+        });
+
+        // بارگذاری پنل ادمین
+        function loadAdminPanel() {
+            allUsers = getUsers();
+            updateStats();
+            renderUsersTable(allUsers);
+        }
+
+        // به‌روزرسانی آمار
+        function updateStats() {
+            const today = new Date().toLocaleDateString('fa-IR');
+            const todayUsers = allUsers.filter(user => 
+                user.registerDate.includes(today)
+            ).length;
+
+            document.getElementById('totalUsers').textContent = allUsers.length;
+            document.getElementById('todayUsers').textContent = todayUsers;
+            document.getElementById('activeUsers').textContent = allUsers.length;
+        }
+
+        // رندر جدول کاربران
+        function renderUsersTable(users) {
+            const container = document.getElementById('usersTableContainer');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">هیچ کاربری یافت نشد</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>نام کامل</th>
+                            <th>ایمیل</th>
+                            <th>موبایل</th>
+                            <th>شماره کاربری</th>
+                            <th>تاریخ ثبت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            users.forEach((user, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${user.fullName}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone}</td>
+                        <td style="font-family: monospace; direction: ltr;">${user.userNumber}</td>
+                        <td>${user.registerDate}</td>
+                        <td class="actions-cell">
+                            <button class="action-btn edit-btn" onclick="editUser(${user.id})">✏️ ویرایش</button>
+                            <button class="action-btn delete-btn" onclick="deleteUser(${user.id})">🗑️ حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // جستجو
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderUsersTable(allUsers);
+                return;
+            }
+
+            const filteredUsers = allUsers.filter(user => 
+                user.fullName.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm) ||
+                user.userNumber.toLowerCase().includes(searchTerm) ||
+                user.phone.includes(searchTerm)
+            );
+
+            renderUsersTable(filteredUsers);
+            showAdminMessage(`نتایج جستجو برای "${searchTerm}": ${filteredUsers.length} کاربر یافت شد`, 'success');
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            renderUsersTable(allUsers);
+        }
+
+        // مدیریت مودال‌ها
+        function showAddUserModal() {
+            document.getElementById('addUserForm').reset();
+            document.getElementById('addUserModal').style.display = 'flex';
+        }
+
+        function showEditUserModal(user) {
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editFullName').value = user.fullName;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPhone').value = user.phone;
+            document.getElementById('editPassword').value = '';
+            
+            currentEditingUserId = user.id;
+            document.getElementById('editUserModal').style.display = 'flex';
+        }
+
+        function showImportModal() {
+            document.getElementById('importModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // افزودن کاربر توسط ادمین
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userData = {
+                id: Date.now(),
+                fullName: document.getElementById('addFullName').value,
+                email: document.getElementById('addEmail').value,
+                phone: document.getElementById('addPhone').value,
+                password: document.getElementById('addPassword').value,
+                userNumber: generateUserNumber(),
+                registerDate: new Date().toLocaleString('fa-IR')
+            };
+
+            // بررسی تکراری نبودن ایمیل
+            const existingUser = allUsers.find(user => user.email === userData.email);
+            if (existingUser) {
+                showAdminMessage('این ایمیل قبلاً ثبت شده است', 'error');
+                return;
+            }
+
+            allUsers.push(userData);
+            saveUsers(allUsers);
+            
+            closeModal('addUserModal');
+            loadAdminPanel();
+            showAdminMessage('✅ کاربر جدید با موفقیت افزوده شد', 'success');
+        });
+
+        // ویرایش کاربر
+        document.getElementById('editUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userIndex = allUsers.findIndex(user => user.id === currentEditingUserId);
+            if (userIndex === -1) return;
+
+            const updatedUser = {
+                ...allUsers[userIndex],
+                fullName: document.getElementById('editFullName').value,
+                email: document.getElementById('editEmail').value,
+                phone: document.getElementById('editPhone').value
+            };
+
+            // اگر رمز عبور جدید وارد شده
+            const newPassword = document.getElementById('editPassword').value;
+            if (newPassword) {
+                updatedUser.password = newPassword;
+            }
+
+            // بررسی تکراری نبودن ایمیل (به جز خود کاربر)
+            const emailExists = allUsers.some(user => 
+                user.email === updatedUser.email && user.id !== currentEditingUserId
+            );
+            
+            if (emailExists) {
+                showAdminMessage('این ایمیل قبلاً توسط کاربر دیگری ثبت شده است', 'error');
+                return;
+            }
+
+            allUsers[userIndex] = updatedUser;
+            saveUsers(allUsers);
+            
+            closeModal('editUserModal');
+            loadAdminPanel();
+            showAdminMessage('✅ اطلاعات کاربر با موفقیت ویرایش شد', 'success');
+        });
+
+        // ویرایش کاربر
+        function editUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (user) {
+                showEditUserModal(user);
+            }
+        }
+
+        // حذف کاربر
+        function deleteUser(userId) {
+            if (!confirm('آیا از حذف این کاربر مطمئنید؟ این عمل غیرقابل بازگشت است.')) {
+                return;
+            }
+
+            allUsers = allUsers.filter(user => user.id !== userId);
+            saveUsers(allUsers);
+            
+            loadAdminPanel();
+            showAdminMessage('✅ کاربر با موفقیت حذف شد', 'success');
+        }
+
+        // وارد کردن داده
+        function importUsers() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showAdminMessage('لطفاً یک فایل انتخاب کنید', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedUsers = JSON.parse(e.target.result);
+                    let addedCount = 0;
+
+                    importedUsers.forEach(userData => {
+                        // بررسی تکراری نبودن ایمیل
+                        const existingUser = allUsers.find(u => u.email === userData.email);
+                        if (!existingUser) {
+                            const newUser = {
+                                id: Date.now() + Math.random(),
+                                fullName: userData.fullName,
+                                email: userData.email,
+                                phone: userData.phone,
+                                password: userData.password,
+                                userNumber: generateUserNumber(),
+                                registerDate: new Date().toLocaleString('fa-IR')
+                            };
+                            allUsers.push(newUser);
+                            addedCount++;
+                        }
+                    });
+
+                    saveUsers(allUsers);
+                    closeModal('importModal');
+                    loadAdminPanel();
+                    showAdminMessage(`✅ ${addedCount} کاربر جدید وارد شد`, 'success');
+                    
+                } catch (error) {
+                    showAdminMessage('خطا در خواندن فایل. لطفاً فرمت فایل را بررسی کنید.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // export و backup
+        function exportToExcel() {
+            let csv = 'نام,ایمیل,موبایل,شماره کاربری,تاریخ ثبت,رمز عبور\n';
+            
+            allUsers.forEach(user => {
+                csv += `"${user.fullName}","${user.email}","${user.phone}","${user.userNumber}","${user.registerDate}","${user.password}"\n`;
+            });
+            
+            downloadFile(csv, 'users_list.csv', 'text/csv');
+            showAdminMessage('✅ فایل Excel با موفقیت دانلود شد', 'success');
+        }
+
+        function downloadBackup() {
+            const data = JSON.stringify(allUsers, null, 2);
+            downloadFile(data, 'users_backup.json', 'application/json');
+            showAdminMessage('✅ پشتیبان با موفقیت دانلود شد', 'success');
+        }
+
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // نمایش پیام
+        function showMessage(elementId, text, type) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showAdminMessage(text, type) {
+            showMessage('adminMessage', text, type);
+        }
+
+        // خروج
+        function logout() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isAdmin');
+            showMain();
+        }
+
+        // بستن مودال با کلیک خارج
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // بررسی لاگین بودن در هنگام بارگذاری
+        window.addEventListener('load', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const isAdmin = localStorage.getItem('isAdmin');
+            
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                document.getElementById('welcomeMessage').textContent = `خوش آمدید ${user.fullName}`;
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>نام:</strong> ${user.fullName}</p>
+                    <p><strong>ایمیل:</strong> ${user.email}</p>
+                    <p><strong>موبایل:</strong> ${user.phone}</p>
+                    <p><strong>شماره کاربری:</strong> ${user.userNumber}</p>
+                    <p><strong>تاریخ ثبت نام:</strong> ${user.registerDate}</p>
+                `;
+                showUserPanel();
+            } else if (isAdmin) {
+                showAdminPanel();
+            } else {
+                showMain();
+            }
+        });
+    </script>
+</body>
+</html>
