@@ -1,0 +1,12 @@
+{
+  "background_color": "#000000",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "سیستم مدیریت کاربران",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "user manager",
+  "start_url": "/",
+  "theme_color": "#f81010",
+  "description": "سامانه جامع مدیریت"
+}
